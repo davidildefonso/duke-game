@@ -1,0 +1,12 @@
+require('dotenv').config()
+
+const path = require('path');
+
+const migrations_path = process.env.NODE_ENV === 'test' ? process.env.TEST_SEQUELIZE_MIGRATION_PATH : process.env.DEV_SEQUELIZE_MIGRATION_PATH;
+
+module.exports = {
+  'config': path.resolve(`src/db/config.ts`),
+  'models-path': path.resolve( `${migrations_path}models`),
+  'seeders-path': path.resolve( `${migrations_path}seeders`),
+  'migrations-path': path.resolve( `${migrations_path}migrations`)
+};

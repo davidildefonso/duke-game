@@ -22,11 +22,20 @@ describe("on start up api", () => {
 			expect(response.text).eql("pong");	
     });
 
-	it('connects to the database', async () => {	
+	it('a connection to the database can be established', async () => {	
 			const sequelize = new Sequelize(`${dialect}://${username}:${password}@${host}:${port}/${database}`) ;
 			const response =  await connectToDatabase(sequelize);
 			expect(response).eql("Connection has been established successfully.");	
     });
+
+	it('a game is added to database on post  to "/api/games" ' , async () => {
+			const response =  await chai.request(app).post('/api/games').send({action: "create"}); 
+			response.should.have.status(200);
+			response.body.should.be.a('object');
+			response.body.should.have.property('game_id');
+			response.body.game_id.should.be(2);
+			
+	});
 
 });
 
